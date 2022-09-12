@@ -4,7 +4,9 @@ use App\Http\Controllers\Api\ApiAuthController;
 use Illuminate\Support\Facades\Route;
 
 
-Route::POST("users/register", [ApiAuthController::class, "register"]);
+Route::POST("users/register", function(){
+    return 'register';
+});
 Route::POST("users/login", [ApiAuthController::class, "login"]);
 Route::get("test", function () {
     die("Romina test");
