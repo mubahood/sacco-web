@@ -3,17 +3,12 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Traits\ApiResponser;
 
-class ApiUsersController extends Controller
+
+class ApiAuthController extends Controller
 {
-    use ApiResponser;
-
-    public function __construct()
-    {
-        $this->middleware('auth:api');
-    }
-
+ 
+   
     public function me()
     {
         die("Romina k");

@@ -2,10 +2,7 @@
     "name": "laravel/laravel",
     "type": "project",
     "description": "The Laravel Framework..",
-    "keywords": [
-        "framework",
-        "laravel"
-    ],
+    "keywords": ["framework", "laravel"],
     "license": "MIT",
     "require": {
         "php": "^7.3|^8.0",
@@ -24,7 +21,7 @@
         "laravelcollective/html": "^6.2",
         "spatie/laravel-image-optimizer": "^1.6",
         "stefangabos/zebra_image": "dev-master",
-        "tymon/jwt-auth": "^1.0"
+        "tymon/jwt-auth": "1.0"
     },
     "require-dev": {
         "facade/ignition": "^2.5",
