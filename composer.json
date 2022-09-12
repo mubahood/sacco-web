@@ -2,10 +2,14 @@
     "name": "laravel/laravel",
     "type": "project",
     "description": "The Laravel Framework..",
-    "keywords": ["framework", "laravel"],
+    "keywords": [
+        "framework",
+        "laravel"
+    ],
     "license": "MIT",
     "require": {
         "php": "^7.3|^8.0",
+        "laravel/passport": "10.4",
         "barryvdh/laravel-dompdf": "^1.0",
         "binarytorch/larecipe": "^2.5",
         "encore/laravel-admin": "1.*",
@@ -19,7 +23,8 @@
         "laravel/tinker": "^2.5",
         "laravelcollective/html": "^6.2",
         "spatie/laravel-image-optimizer": "^1.6",
-        "stefangabos/zebra_image": "dev-master"
+        "stefangabos/zebra_image": "dev-master",
+        "tymon/jwt-auth": "^1.0"
     },
     "require-dev": {
         "facade/ignition": "^2.5",
