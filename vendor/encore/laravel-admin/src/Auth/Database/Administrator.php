@@ -9,9 +9,9 @@ use Illuminate\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Storage;
 use Tymon\JWTAuth\Contracts\JWTSubject;
-
 
 /**
  * Class Administrator.
@@ -23,6 +23,7 @@ class Administrator extends Model implements AuthenticatableContract, JWTSubject
     use Authenticatable;
     use HasPermissions;
     use DefaultDatetimeFormat;
+    use Notifiable;
 
     protected $fillable = ['username', 'password', 'name', 'avatar'];
 
@@ -162,9 +163,9 @@ class Administrator extends Model implements AuthenticatableContract, JWTSubject
         return $this->belongsToMany($relatedModel, $pivotTable, 'user_id', 'permission_id');
     }
 
+    // Rest omitted for brevity
 
-    // the jwt auth to map this model to the jwt rest api token authentication 
-     /**
+    /**
      * Get the identifier that will be stored in the subject claim of the JWT.
      *
      * @return mixed
@@ -174,7 +175,6 @@ class Administrator extends Model implements AuthenticatableContract, JWTSubject
         return $this->getKey();
     }
 
-    
     /**
      * Return a key value array, containing any custom claims to be added to the JWT.
      *
@@ -184,5 +184,4 @@ class Administrator extends Model implements AuthenticatableContract, JWTSubject
     {
         return [];
     }
-
 }

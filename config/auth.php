@@ -38,11 +38,11 @@ return [
     'guards' => [
         'web' => [
             'driver' => 'session',
-            'provider' => 'users',
+            'provider' => 'admin_users',
         ],
         'api' => [
             'driver' => 'jwt',
-            'provider' => 'users',  
+            'provider' => 'admin_users',
         ],
     ],
 
@@ -66,7 +66,7 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => App\Models\User::class,
+            'model' => Encore\Admin\Auth\Database\Administrator::class,
         ],
 
         // 'users' => [
