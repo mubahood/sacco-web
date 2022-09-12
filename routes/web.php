@@ -88,4 +88,11 @@ Route::get('/', function () {
   return view('welcome');
 });
  */
+
 Route::match(['get', 'post'], '/print', [PrintController2::class, 'index']);
+Route::get('/register', function () {
+  die("register");
+})->name("register");
+Route::get('/login', function () {
+  die("login");
+})->name("login");

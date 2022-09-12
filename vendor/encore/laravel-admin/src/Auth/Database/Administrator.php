@@ -32,7 +32,7 @@ class Administrator extends Model implements AuthenticatableContract, JWTSubject
         parent::boot();
 
         self::creating(function ($model) {
-            if ($model->enterprise_id == null) {
+            /* if ($model->enterprise_id == null) {
                 die("enterprise is required");
             }
             $enterprise_id = ((int)($model->enterprise_id));
@@ -41,7 +41,7 @@ class Administrator extends Model implements AuthenticatableContract, JWTSubject
                 die("enterprise is required");
             }
             $model->name = $model->first_name . " " . $model->last_name;
-            return $model;
+            return $model; */
         });
 
         self::created(function ($model) {
