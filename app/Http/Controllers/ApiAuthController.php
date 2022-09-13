@@ -100,8 +100,7 @@ class ApiAuthController extends Controller
         if ($r->password == null) {
             return $this->error('Password is required.');
         }
-
-        $phone_number .= rand(10000, 1000000);
+ 
         $u = Administrator::where('phone_number_1', $phone_number)
             ->orWhere('username', $phone_number)->first();
         if ($u != null) {
