@@ -100,7 +100,7 @@ class ApiAuthController extends Controller
 
 
         if (!Utils::phone_number_is_valid($phone_number)) {
-            return $this->error('You entered an invalid phone number. '.$phone_number);
+            return $this->error('Invalid phone number. '.$phone_number);
         }
 
         if ($r->first_name == null) {
