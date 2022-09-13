@@ -96,11 +96,11 @@ class ApiAuthController extends Controller
             return $this->error('Phone number is required.');
         }
 
-        $phone_number = Utils::prepare_phone_number($r->phone_number);
+        $phone_number = Utils::prepare_phone_number(trim($r->phone_number));
 
 
         if (!Utils::phone_number_is_valid($phone_number)) {
-            return $this->error('You entered an invalid phone number.');
+            return $this->error('You entered an invalid phone number. '.$phone_number);
         }
 
         if ($r->first_name == null) {
