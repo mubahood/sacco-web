@@ -38,19 +38,6 @@ class ApiAuthController extends Controller
     public function me()
     {
 
-        return $this->success('Anjane', "Log in success!", 202);
-
-        $token = auth()->attempt([
-            'username' => 'admin',
-            'password' => 'admin',
-        ]);
-
-        /* 
-        
-        */
-
-        dd($token);
-        die("Romina k");
         $query = auth('api')->user();
         return $this->successResponse($query, $message = "Profile details", 200);
     }
