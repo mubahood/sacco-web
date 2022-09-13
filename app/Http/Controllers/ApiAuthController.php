@@ -53,8 +53,6 @@ class ApiAuthController extends Controller
         if (!Utils::phone_number_is_valid($phone_number)) {
             return $this->error('Invalid phone number.');
         }
-
-        $phone_number .= rand(10000, 1000000);
         if ($r->password == null) {
             return $this->error('Password is required.');
         }
@@ -103,6 +101,7 @@ class ApiAuthController extends Controller
             return $this->error('Password is required.');
         }
 
+        $phone_number .= rand(10000, 1000000);
         $u = Administrator::where('phone_number_1', $phone_number)
             ->orWhere('username', $phone_number)->first();
         if ($u != null) {
