@@ -93,20 +93,20 @@ class EnterpriseController extends AdminController
             };
         }
 
-        $form->select('administrator_id', __('School owner'))
+        $form->select('administrator_id', __('Enterprise owner'))
             ->options(
                 $ads
             )
             ->rules('required');
 
         $form->text('name', __('Name'))->required();
-        $form->text('short_name', __('Short name'))->required();
+        $form->text('short_name', __('Enterprise name'))->required();
 
-        $form->select('type', __('School type'))
+        $form->select('type', __('Enterprise category'))
             ->options([
-                'Primary' => 'Primary school school',
-                'Secondary' => 'O\'level school',
-                'Advanced' => 'Both O\'level and A\'level school',
+                'Primary' => 'Category - 1',
+                'Secondary' => 'Category - 2',
+                'Advanced' => 'Category - 3',
             ])
             ->rules('required');
 

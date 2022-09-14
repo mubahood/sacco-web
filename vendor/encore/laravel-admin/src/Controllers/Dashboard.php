@@ -56,7 +56,7 @@ class Dashboard
         $sub_title .= number_format($female_students) . ' Females.';
         return view('widgets.box-5', [
             'is_dark' => false,
-            'title' => 'All teachers',
+            'title' => 'All admins',
             'sub_title' => $sub_title,
             'number' => number_format($all_students),
             'link' => admin_url('auth/users')
@@ -77,11 +77,11 @@ class Dashboard
 
         $female_students = $all_students - $male_students;
 
-        $sub_title = number_format($male_students) . ' Males, ';
-        $sub_title .= number_format($female_students) . ' Females.';
+        $sub_title = number_format($male_students) . ' Today, ';
+        $sub_title .= number_format($female_students) . ' This week.';
         return view('widgets.box-5', [
             'is_dark' => false,
-            'title' => 'All students',
+            'title' => 'Transactions',
             'sub_title' => $sub_title,
             'number' => number_format($all_students),
             'link' => admin_url('auth/users')
