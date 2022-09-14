@@ -85,11 +85,13 @@ class EnterpriseController extends AdminController
 
         $ads = [];
         foreach (Administrator::all() as $ad) {
-            if ($ad->isRole('admin')) {
+            if (
+                $ad->isRole('admin') ||
+                $ad->isRole('super-admin')
+            ) {
                 $ads[$ad->id] = $ad->username;
             };
         }
-
 
         $form->select('administrator_id', __('School owner'))
             ->options(

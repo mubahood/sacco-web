@@ -57,8 +57,8 @@ return [
         ],
         'admin' => [
             'driver' => 'local',
-            'root' => $_SERVER['DOCUMENT_ROOT'].'/public/',
-            'url' => env('APP_URL') . '/',
+            'root' => $_SERVER['DOCUMENT_ROOT'].'/storage', 
+            'url' => env('APP_URL') . '/public/storage',
             'visibility' => 'public',
         ],
     ],
