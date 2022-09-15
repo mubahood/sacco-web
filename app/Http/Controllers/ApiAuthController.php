@@ -25,7 +25,7 @@ class ApiAuthController extends Controller
             'username' => 'admin',
             'password' => 'admin',
         ]);
-        die($token); */
+        die($token); */ 
         $this->middleware('auth:api', ['except' => ['login', 'register']]);
     }
 
@@ -37,7 +37,6 @@ class ApiAuthController extends Controller
      */
     public function me()
     {
-
         $query = auth('api')->user();
         return $this->successResponse($query, $message = "Profile details", 200);
     }
