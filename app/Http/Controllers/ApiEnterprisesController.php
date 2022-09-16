@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Models\Enterprise; 
-use App\Traits\ApiResponser; 
+use App\Models\Enterprise;
+use App\Traits\ApiResponser;
 
 class ApiEnterprisesController extends Controller
 {
@@ -16,9 +16,7 @@ class ApiEnterprisesController extends Controller
     {
         $this->middleware('auth:api');
     }
-
-
-
+ 
     public function index()
     {
         /* die(" enterprises romina");
