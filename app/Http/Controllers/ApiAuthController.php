@@ -5,8 +5,11 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\Utils;
 use App\Traits\ApiResponser;
+use Carbon\Carbon;
 use Encore\Admin\Auth\Database\Administrator;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Config;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class ApiAuthController extends Controller
 {
@@ -25,7 +28,7 @@ class ApiAuthController extends Controller
             'username' => 'admin',
             'password' => 'admin',
         ]);
-        die($token); */ 
+        die($token); */
         $this->middleware('auth:api', ['except' => ['login', 'register']]);
     }
 
@@ -62,10 +65,18 @@ class ApiAuthController extends Controller
             return $this->error('User account not found.');
         }
 
+        //auth('api')->factory()->setTTL(Carbon::now()->addMonth(12)->timestamp);
+
+        Config::set('jwt.ttl', 60*24*30*365);
+
         $token = auth('api')->attempt([
             'username' => $phone_number,
             'password' => trim($r->password),
         ]);
+
+         
+ 
+
 
         if ($token == null) {
             return $this->error('Wrong credentials.');
@@ -99,7 +110,7 @@ class ApiAuthController extends Controller
         if ($r->password == null) {
             return $this->error('Password is required.');
         }
- 
+
         $u = Administrator::where('phone_number_1', $phone_number)
             ->orWhere('username', $phone_number)->first();
         if ($u != null) {
