@@ -41,7 +41,7 @@ class ApiAuthController extends Controller
     public function me()
     {
         $query = auth('api')->user();
-        return $this->successResponse($query, $message = "Profile details", 200);
+        return $this->success($query, $message = "Profile details", 200);
     }
 
 
