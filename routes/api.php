@@ -17,5 +17,6 @@ Route::group(['middleware' => 'api'], function ($router) {
     //enterprises
     Route::get("enterprises", [ApiEnterprisesController::class, 'index']);
     Route::post("enterprises", [ApiEnterprisesController::class, 'create']);
-    Route::post("enterprises/select'", [ApiEnterprisesController::class, 'select']);
-});
+    Route::post("enterprises-select", [ApiEnterprisesController::class, 'select']);
+
+}); 

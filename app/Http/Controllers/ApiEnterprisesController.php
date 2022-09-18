@@ -77,8 +77,7 @@ class ApiEnterprisesController extends Controller
     }
 
     public function select(Request $r)
-    {
-
+    { 
         $u = auth('api')->user();
 
         if ($r->id == null) {
