@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Enterprise;
 use App\Models\Utils;
 use App\Traits\ApiResponser;
+use Encore\Admin\Auth\Database\Administrator;
 use Illuminate\Http\Request;
 
 class ApiEnterprisesController extends Controller
@@ -46,15 +47,15 @@ class ApiEnterprisesController extends Controller
 
         $x = Enterprise::where('name', trim($r->name))->first();
         if ($x != null) {
-            return $this->error('Group with same name already exist.');
+            return $this->error('Group with same name ('.$x->name.') already exist. ');
         }
 
-        $x = Enterprise::where('phone_number', $r->phone_number)->first();
-        if ($x != null) {
+        $y = Enterprise::where('phone_number', $r->phone_number)->first();
+        if ($y != null) {
             return $this->error('Group with same phone number already exist.');
         }
 
-        $logo = Utils::upload_images_1($_FILES,true); 
+        $logo = Utils::upload_images_1($_FILES, true);
 
         $e = new Enterprise();
         $e->name = trim($r->name);
@@ -66,9 +67,15 @@ class ApiEnterprisesController extends Controller
         $e->administrator_id = $u->id;
         $e->type = 'Pending';
         $e->logo = $logo;
-        $e->save();
+        if (!$e->save()) {
+            return $this->error('Failed to save group. Please try again.');
+        }
+
+        $admin = Administrator::find($u->id);
+        $admin->enterprise_id = $e->id;
+        $admin->save();
 
 
-        return $this->success($e, $message = "Group created successfully", 200);
+        return $this->success($e, "Group created successfully", 200);
     }
 }
