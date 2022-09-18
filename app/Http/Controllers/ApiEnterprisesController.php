@@ -22,9 +22,6 @@ class ApiEnterprisesController extends Controller
 
     public function index()
     {
-        /* die(" enterprises romina");
-         */
-
         return $this->success(Enterprise::all(), $message = "Enterprise", 200);
     }
 
@@ -47,7 +44,7 @@ class ApiEnterprisesController extends Controller
 
         $x = Enterprise::where('name', trim($r->name))->first();
         if ($x != null) {
-            return $this->error('Group with same name ('.$x->name.') already exist. ');
+            return $this->error('Group with same name (' . $x->name . ') already exist. ');
         }
 
         $y = Enterprise::where('phone_number', $r->phone_number)->first();
@@ -77,5 +74,28 @@ class ApiEnterprisesController extends Controller
 
 
         return $this->success($e, "Group created successfully", 200);
+    }
+
+    public function select(Request $r)
+    {
+
+        $u = auth('api')->user();
+
+        if ($r->id == null) {
+            return $this->error('Group is missing.');
+        }
+
+        $ent = Enterprise::find($r->id);
+
+        if ($ent == null) {
+            return $this->error('Group not found.');
+        }
+
+        $admin = Administrator::find($u->id);
+        $admin->enterprise_id = $ent->id;
+        $admin->save();
+
+
+        return $this->success(null, "Group selected successfully", 200);
     }
 }
