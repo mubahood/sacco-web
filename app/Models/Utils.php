@@ -55,6 +55,11 @@ class Utils  extends Model
 
     public static function phone_number_is_valid($phone_number)
     {
+        $phone_number = Utils::prepare_phone_number($phone_number);
+        if (substr($phone_number, 0, 4) != "+256") {
+            return false;
+        }
+        
         if (substr($phone_number, 0, 4) != "+256") {
             return false;
         }
