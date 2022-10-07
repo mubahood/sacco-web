@@ -60,6 +60,7 @@ class ApiAuthController extends Controller
         }
 
         $u = Administrator::where('phone_number_1', $phone_number)
+            ->with('group')
             ->orWhere('username', $phone_number)->first();
         if ($u == null) {
             return $this->error('User account not found.');
@@ -132,6 +133,7 @@ class ApiAuthController extends Controller
 
 
         $u = Administrator::where('phone_number_1', $phone_number)
+        ->with('group')
             ->orWhere('username', $phone_number)->first();
         if ($u != null) {
             return $this->error('User with same phone number already exists.');
@@ -151,7 +153,7 @@ class ApiAuthController extends Controller
             return $this->error('Failed to create account. Please try again.');
         }
 
-        $new_user = Administrator::find($user->id);
+        $new_user = Administrator::find($user->id)->with('group');
         if ($new_user == null) {
             return $this->error('Account created successfully but failed to log you in.');
         }

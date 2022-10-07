@@ -174,6 +174,12 @@ class Administrator extends Model implements AuthenticatableContract, JWTSubject
     {
         return $this->getKey();
     }
+    
+    
+    public function group()
+    {
+        return $this->belongsTo(Enterprise::class,'enterprise_id');
+    }
 
     /**
      * Return a key value array, containing any custom claims to be added to the JWT.
