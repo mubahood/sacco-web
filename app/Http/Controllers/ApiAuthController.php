@@ -67,15 +67,15 @@ class ApiAuthController extends Controller
 
         //auth('api')->factory()->setTTL(Carbon::now()->addMonth(12)->timestamp);
 
-        Config::set('jwt.ttl', 60*24*30*365);
+        Config::set('jwt.ttl', 60 * 24 * 30 * 365);
 
         $token = auth('api')->attempt([
             'username' => $phone_number,
             'password' => trim($r->password),
         ]);
 
-         
- 
+
+
 
 
         if ($token == null) {
@@ -107,9 +107,29 @@ class ApiAuthController extends Controller
             return $this->error('Last name is required.');
         }
 
+        if ($r->nin == null) {
+            return $this->error('National ID number is required.');
+        }
+
+        if (strlen($r->nin) != 14) {
+            return $this->error('Enter valid National ID number.');
+        }
+
         if ($r->password == null) {
             return $this->error('Password is required.');
         }
+
+        $u = Administrator::where('national_id_number', $r->nin)->first();
+        if ($u != null) {
+            return $this->error('Enter valid phone number.');
+        }
+
+        $pic = Utils::upload_images_1($_FILES, true);
+
+        if ($pic == null || (strlen($pic) < 3)) {
+            return $this->error('Enter valid national ID Photo.');
+        }
+
 
         $u = Administrator::where('phone_number_1', $phone_number)
             ->orWhere('username', $phone_number)->first();
@@ -123,6 +143,9 @@ class ApiAuthController extends Controller
         $user->name = $r->first_name . " " . $user->last_name;
         $user->first_name = $r->first_name;
         $user->last_name = $r->last_name;
+        $user->passport_number = $pic;
+        $user->national_id_number = $r->nin;
+
         $user->password = password_hash(trim($r->password), PASSWORD_DEFAULT);
         if (!$user->save()) {
             return $this->error('Failed to create account. Please try again.');
@@ -132,7 +155,7 @@ class ApiAuthController extends Controller
         if ($new_user == null) {
             return $this->error('Account created successfully but failed to log you in.');
         }
-        Config::set('jwt.ttl', 60*24*30*365);
+        Config::set('jwt.ttl', 60 * 24 * 30 * 365);
 
         $token = auth('api')->attempt([
             'username' => $phone_number,
