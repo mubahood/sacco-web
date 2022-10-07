@@ -40,8 +40,9 @@ class ApiAuthController extends Controller
      */
     public function me()
     {
-        $query = auth('api')->user();
-        return $this->success($query, $message = "Profile details", 200);
+        $u = auth('api')->user();
+        $new_user = Administrator::find($u->id)->with('group');
+        return $this->success($new_user, $message = "Profile details", 200);
     }
 
 
@@ -133,7 +134,7 @@ class ApiAuthController extends Controller
 
 
         $u = Administrator::where('phone_number_1', $phone_number)
-        ->with('group')
+            ->with('group')
             ->orWhere('username', $phone_number)->first();
         if ($u != null) {
             return $this->error('User with same phone number already exists.');
