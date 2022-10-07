@@ -174,11 +174,11 @@ class Administrator extends Model implements AuthenticatableContract, JWTSubject
     {
         return $this->getKey();
     }
-    
-    
+
+
     public function group()
     {
-        return $this->belongsTo(Enterprise::class,'enterprise_id');
+        return $this->belongsTo(Enterprise::class, 'enterprise_id');
     }
 
     /**
@@ -189,5 +189,14 @@ class Administrator extends Model implements AuthenticatableContract, JWTSubject
     public function getJWTCustomClaims()
     {
         return [];
+    }
+    public static function get_logged_on_user($id)
+    {
+        $new_user = Administrator::where('id', $id)
+            ->with('group')->first();
+        if ($new_user == null) {
+            return null;
+        }
+        return $new_user;
     }
 }

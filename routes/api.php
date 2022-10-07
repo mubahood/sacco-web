@@ -13,6 +13,7 @@ Route::get("test", function () {
 
 Route::group(['middleware' => 'api'], function ($router) {
     Route::get("users/me", [ApiAuthController::class, 'me']);
+    Route::get("me", [ApiAuthController::class, 'me']);
     
     //enterprises
     Route::get("enterprises", [ApiEnterprisesController::class, 'index']);

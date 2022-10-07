@@ -41,8 +41,8 @@ class ApiAuthController extends Controller
     public function me()
     {
         $u = auth('api')->user();
-        $new_user = Administrator::find($u->id)->with('group');
-        return $this->success($new_user, $message = "Profile details", 200);
+        $new_user = Administrator::get_logged_on_user($u->id);
+        return $this->success($new_user, "Profile details");
     }
 
 
@@ -154,7 +154,7 @@ class ApiAuthController extends Controller
             return $this->error('Failed to create account. Please try again.');
         }
 
-        $new_user = Administrator::find($user->id)->with('group');
+        $new_user = Administrator::get_logged_on_user($user->id);
         if ($new_user == null) {
             return $this->error('Account created successfully but failed to log you in.');
         }
