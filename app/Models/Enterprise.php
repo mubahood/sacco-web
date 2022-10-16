@@ -11,6 +11,13 @@ class Enterprise extends Model
 {
     use HasFactory;
 
+    public function getMembersAttribute(){
+        return Administrator::where([
+            'enterprise_id' => $this->id
+        ])->get();
+    }
+
+    protected $appends = ['members'];
     public function owner()
     {
         return $this->belongsTo(Administrator::class, 'administrator_id');
