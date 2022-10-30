@@ -70,6 +70,8 @@ class ApiEnterprisesController extends Controller
 
         $admin = Administrator::find($u->id);
         $admin->enterprise_id = $e->id;
+        $admin->group_role = 'admin';
+        $admin->group_approved = true;
         $admin->save();
 
 
