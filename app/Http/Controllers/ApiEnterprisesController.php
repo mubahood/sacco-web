@@ -42,6 +42,11 @@ class ApiEnterprisesController extends Controller
             $u->group_role = 'chairperson';
             $u->save();
             return $this->success(null, "{$u->name} was made group chairperson successfully", 200);
+        } else if ($r->task == "remove-member") {
+            $u->enterprise_id = 1;
+            $u->group_role = 'member';
+            $u->save();
+            return $this->success($u, "{$u->name} wasa removed from group successfully.", 200);
         }
 
 
