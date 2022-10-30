@@ -101,51 +101,23 @@ class Utils  extends Model
     #==============
     public static function system_boot($u)
     {
-        $subs = ExamHasClass::where('marks_generated', '!=', 1)->get();
-        foreach ($subs as $m) {
-            Exam::my_update($m);
-            $m->marks_generated = 1;
-            $m->save();
-        }
+      
     }
     public static function system_checklist($u)
     {
         $list = [];
-
-        if ($u->isRole('admin')) {
-            $_list = Utils::classes_checklist($u);
-            foreach ($_list as $key => $x) {
-                $list[] = $x;
-            }
-
-            $_list = Utils::students_checklist($u);
-            foreach ($_list as $key => $x) {
-                $list[] = $x;
-            }
-            $_list = Utils::students_optional_subjects_checklist($u);
-            foreach ($_list as $key => $x) {
-                $list[] = $x;
-            }
-        }
-
+ 
         return $list;
     }
 
     public static function display_checklist($items)
-    {
-        foreach ($items as $key => $check) {
-            admin_error('Warning', $check['message']);
-        }
+    { 
     }
 
 
     public static function display_system_checklist()
     {
-        $u = Admin::user();
-        $check_list = Utils::classes_checklist($u);
-        foreach ($check_list as $check) {
-            admin_error('Warning', $check['message']);
-        }
+         
     }
 
 
@@ -188,199 +160,36 @@ class Utils  extends Model
 
     public static function students_checklist($u)
     {
-
-        $sql_1 = "SELECT administrator_id FROM student_has_classes WHERE enterprise_id = {$u->enterprise_id}";
-        $sql = "SELECT * FROM admin_users WHERE 
-            user_type = 'student' AND
-            enterprise_id = {$u->enterprise_id} AND
-            id NOT IN ($sql_1)
-        ";
-        $students = DB::select($sql);
-        $items = [];
-        foreach ($students as $s) {
-            $resp['message'] = "Student $s->name - ID #{$s->id} has not been assign to any class. Assign this student to at least class.";
-            $resp['link'] = admin_url("classes/$s->id/edit/#tab-form-2");
-            $items[] =  $resp;
-        }
-        return $items;
+ 
+        return [];
     }
 
     public static function classes_checklist($u)
     {
 
         $items = [];
-        $classes = AcademicClass::where([
-            'enterprise_id' => $u->enterprise_id,
-        ])->get();
-
-
-        foreach ($classes as $key => $class) {
-            $compulsory_subjects = Subject::where([
-                'academic_class_id' => $class->id
-
-            ])
-                ->where('is_optional', '!=', 1)
-                ->count();
-
-            $optional_subjects = Subject::where([
-                'academic_class_id' => $class->id,
-                'is_optional' => 1,
-            ])->count();
-
-            $msg = "";
-            if ($class->optional_subjects > $optional_subjects) {
-                $msg = "Class {$class->name} is supposed to have 
-                $class->optional_subjects optional subjects, but there is only 
-                $optional_subjects optional subjetcs.
-                Navigate to subjects tab under Academics and add missing subjects in this class.";
-
-                $resp['message'] = $msg;
-                $resp['link'] = admin_url("classes/$class->id/edit/#tab-form-2");
-                $items[] =  $resp;
-            }
-
-            if ($class->compulsory_subjects > $compulsory_subjects) {
-                $msg = "Class {$class->name} is supposed to have 
-                $class->compulsory_subjects compulsory subjects, but there is only 
-                $compulsory_subjects compulsory subjects.
-                Navigate to subjects tab under Academics and add missing subjects in this class.";
-                $resp['message'] = $msg;
-                $resp['link'] = admin_url("classes/$class->id/edit/#tab-form-2");
-                $items[] =  $resp;
-            }
-        }
-        /* "compulsory_subjects" => 8
-        "optional_subjects" => 4 */
+      
 
         return $items;
     }
     public static function reconcile_in_background($enterprise_id)
-    {
-        $url = url('api/reconcile?enterprise_id=' . $enterprise_id);
-        $ctx = stream_context_create(['http' => ['timeout' => 3]]);
-
-        try {
-            $data =  file_get_contents($url, null, $ctx);
-        } catch (Exception $x) {
-        }
-
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
-        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 0.0000001);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 0.0000001);
-        $response = curl_exec($ch);
+    { 
     }
 
 
     public static function reconcile($enterprise_id)
-    {
-        $ent = Enterprise::find($enterprise_id);
-        if ($ent == null) {
-            die("ent not found");
-        }
-        $rec = Reconciler::where([
-            'enterprise_id' => $enterprise_id
-        ])->first();
-        if ($rec == null) {
-            $rec = new Reconciler();
-            $rec->enterprise_id = $enterprise_id;
-            $rec->last_update = time();
-            $rec->save();
-        }
-        $diff = time() - ($rec->last_update);
-        if ($diff < (60 * 2)) {
-            die("too early to reconcile $diff");
-        }
-
-        $accs = Account::where([
-            'enterprise_id' => $enterprise_id
-        ])->get();
-        foreach ($accs as $acc) {
-            $bal = Transaction::where([
-                'account_id' => $acc->id
-            ])->sum('amount');
-            $acc->balance = $bal;
-            $acc->save();
-        }
-
-        $rec->last_update = time();
-        $rec->save();
-        die("Reconciled successfully $diff");
+    { 
     }
 
     public static function get_automaic_mark_remarks($score)
-    {
-        $remarks = "Fair";
-        if ($score < 20) {
-            $remarks = 'Tried';
-        } else if ($score < 30) {
-            $remarks = 'Fair';
-        } else if ($score < 50) {
-            $remarks = 'Good';
-        } else if ($score < 70) {
-            $remarks = 'V.Good';
-        } else {
-            $remarks = 'Excellent';
-        }
-        return $remarks;
+    { 
     }
     public static function dummy_update_mark()
-    {
-        $marks = Mark::all();
-        $remarks = ['Fair', 'Tried', 'V.Good', 'Poor', 'Excelent'];
-        foreach ($marks as $m) {
-            $m->score = rand(0, $m->exam->max_mark);
-            $m->remarks = 'Fair';
-            $val  = Utils::convert_to_percentage($m->score, $m->exam->max_mark);
-            if ($val < 20) {
-                $m->remarks = 'Poor';
-            } else if ($val < 30) {
-                $m->remarks = 'Fair';
-            } else if ($val < 50) {
-                $m->remarks = 'Good';
-            } else if ($val < 70) {
-                $m->remarks = 'V.Good';
-            } else {
-                $m->remarks = 'Excellent';
-            }
-            $m->is_submitted = true;
-            $m->is_missed = true;
-            $m->save();
-        }
+    { 
     }
 
     public static function grade_marks($report_item)
-    {
-        $grading_scale = GradingScale::find($report_item->student_report_card->termly_report_card->grading_scale_id);
-        if ($grading_scale == null) {
-            die("No grading scale found.");
-        }
-
-        $tot = $report_item->bot_mark;
-        $tot += $report_item->mot_mark;
-        $tot += $report_item->eot_mark;
-        $default = new GradeRange();
-        $default->id = 1;
-        $default->grading_scale_id = 1;
-        $default->enterprise_id = 1;
-        $default->name = 'X';
-        $default->min_mark = -1;
-        $default->aggregates = 0;
-
-        //$tot = $report_item->
-        foreach ($grading_scale->grade_ranges as $v) {
-            if (
-                ($tot >= $v->min_mark) &&
-                ($tot <= $v->max_mark)
-            ) {
-                return $v;
-            }
-        }
-
-        return $default;
+    {  
     }
 
     public static function convert_to_percentage($val, $max)
