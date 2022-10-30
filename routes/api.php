@@ -19,6 +19,7 @@ Route::group(['middleware' => 'api'], function ($router) {
     Route::get("enterprises", [ApiEnterprisesController::class, 'index']);
     Route::post("enterprises", [ApiEnterprisesController::class, 'create']);
     Route::post("decline-group-join-request", [ApiEnterprisesController::class, 'decline_group_join_request']);
+    Route::post("approve-group-join-request", [ApiEnterprisesController::class, 'approve_group_join_request']);
     Route::post("enterprises-select", [ApiEnterprisesController::class, 'select']);
 
 }); 

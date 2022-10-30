@@ -33,12 +33,27 @@ class ApiEnterprisesController extends Controller
         if ($u == null) {
             return $this->error('User with specified ID was not found.');
         }
-
         $u->enterprise_id = 1;
         $u->group_role = 'member';
         $u->save();
-        return $this->success($u, "Group created successfully", 200);
+        return $this->success($u, "Group join request declined successfully", 200);
     }
+
+    public function approve_group_join_request(Request $r)
+    {
+        $member_id = ((int)($r->member_id));
+        $u = Administrator::find($member_id);
+
+        if ($u == null) {
+            return $this->error('User with specified ID was not found.');
+        }
+
+        $u->group_approved = true;
+        $u->group_role = 'member';
+        $u->save();
+        return $this->success($u, "Group join request approved successfully", 200);
+    }
+
     public function create(Request $r)
     {
 
