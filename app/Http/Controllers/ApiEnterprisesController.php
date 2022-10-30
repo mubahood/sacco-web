@@ -25,6 +25,29 @@ class ApiEnterprisesController extends Controller
         return $this->success(Enterprise::all(), $message = "Enterprise", 200);
     }
 
+    public function group_tasks(Request $r)
+    {
+        $member_id = ((int)($r->member_id));
+        $u = Administrator::find($member_id);
+
+        if ($u == null) {
+            return $this->error('User with specified ID was not found.');
+        }
+
+        if ($r->task == "make-secretary") {
+            $u->group_role = 'secretary';
+            $u->save();
+            return $this->success(null, "{$u->name} was made group secretary successfully", 200);
+        } else if ($r->task == "make-chairperson") {
+            $u->group_role = 'chairperson';
+            $u->save();
+            return $this->success(null, "{$u->name} was made group chairperson successfully", 200);
+        }
+
+
+        return $this->success($u, "Group join request declined successfully", 200);
+    }
+
     public function decline_group_join_request(Request $r)
     {
         $member_id = ((int)($r->member_id));
