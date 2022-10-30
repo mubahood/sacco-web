@@ -32,7 +32,7 @@ class UserController extends AdminController
         $grid->column('id', 'ID')->sortable();
         $grid->column('username', trans('admin.username'));
         $grid->column('name', trans('admin.name'));
-        $grid->column('name', trans('Enteprise'))
+        $grid->column('enterprise_id', trans('Enteprise'))
             ->display(function () {
                 return $this->enterprise->name;
             });

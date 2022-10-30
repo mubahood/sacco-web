@@ -94,6 +94,13 @@ class EnterpriseController extends AdminController
             $ads[$ad->id] = $ad->name . " " . $ad->phone_number_1;
         }
 
+        $form->select('type', __('Group status'))
+            ->options([
+                'Pending' => 'Pending',
+                'Approved' => 'Approved',
+        ])
+            ->rules('required');
+
         $form->select('administrator_id', __('Group owner'))
             ->options(
                 $ads
@@ -102,25 +109,16 @@ class EnterpriseController extends AdminController
 
         $form->text('name', __('Group Name'))->required();
         $form->text('short_name', __('Group short name'))->required();
+        $form->textarea('details', __('Details about group'))->rules('required');
 
-        $form->select('type', __('Enterprise category'))
-            ->options([
-                'Primary' => 'Category - 1',
-                'Secondary' => 'Category - 2',
-                'Advanced' => 'Category - 3',
-            ])
-            ->rules('required');
 
-        //$form->textarea('welcome_message', __('Welcome_message'))->required();
+
         $form->quill('welcome_message', __('Group rules'))->required();
-        $form->text('subdomain', __('Subdomain'))->required();
-        $form->image('logo', __('Logo'));
-        $form->text('color', __('Primary color'))->required();
-        $form->text('phone_number', __('Phone number'))->attribute('type', 'number');
-        $form->text('email', __('Email'))->attribute('type', 'email')->required();
-        $form->text('address', __('Address'));
-        $form->date('expiry', __('Expiry'))->required();
-        $form->textarea('details', __('Details about group'));
+        $form->image('logo', __('Group Logo'));
+        $form->text('phone_number', __('Group Phone number'))->attribute('type', 'number');
+        $form->text('email', __('Group Email'))->attribute('type', 'email')->required();
+        $form->text('address', __('Group Address'));
+
 
         return $form;
     }
