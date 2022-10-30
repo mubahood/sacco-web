@@ -84,21 +84,12 @@ class EnterpriseController extends AdminController
         $form = new Form(new Enterprise());
 
         $ads = [];
-        foreach (Administrator::all() as $ad) {
-            /* if (
-                $ad->isRole('admin') ||
-                $ad->isRole('super-admin')
-            ) {
-
-            }; */
-            $ads[$ad->id] = $ad->name . " " . $ad->phone_number_1;
-        }
-
+     
         $form->select('type', __('Group status'))
             ->options([
                 'Pending' => 'Pending',
                 'Approved' => 'Approved',
-        ])
+            ])
             ->rules('required');
 
         $form->select('administrator_id', __('Group owner'))
