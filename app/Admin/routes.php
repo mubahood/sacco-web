@@ -12,7 +12,6 @@ Route::group([
 ], function (Router $router) {
 
     $router->resource('members', EmployeesController::class);
-    $router->get('/statistics', 'HomeController@stats')->name('home');
     $router->resource('books-categories', BooksCategoryController::class);
     $router->resource('book-authors', BookAuthorController::class);
     $router->resource('books', BookController::class);

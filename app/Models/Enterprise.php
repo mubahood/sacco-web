@@ -11,7 +11,8 @@ class Enterprise extends Model
 {
     use HasFactory;
 
-    public function getMembersAttribute(){
+    public function getMembersAttribute()
+    {
         return Administrator::where([
             'enterprise_id' => $this->id
         ])->get();
@@ -54,17 +55,8 @@ class Enterprise extends Model
             $owner->save();
         }
 
-        $acc = Account::where([
-            'type' => 'CASH_ACCOUNT',
-            'enterprise_id' => $m->id,
-        ])->first();
-        if ($acc == null) {
-            $ac =  new Account();
-            $ac->name = 'CASH ACCOUNT';
-            $ac->enterprise_id = $m->id;
-            $ac->type = 'CASH_ACCOUNT';
-            $ac->administrator_id = $m->administrator_id;
-            $ac->save();
-        }
+        $owner->group_role = 'admin';
+        $owner->group_approved = true;
+        $owner->save();
     }
 }

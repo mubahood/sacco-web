@@ -85,22 +85,23 @@ class EnterpriseController extends AdminController
 
         $ads = [];
         foreach (Administrator::all() as $ad) {
-            if (
+            /* if (
                 $ad->isRole('admin') ||
                 $ad->isRole('super-admin')
             ) {
-                $ads[$ad->id] = $ad->username;
-            };
+
+            }; */
+            $ads[$ad->id] = $ad->name . " " . $ad->phone_number_1;
         }
 
-        $form->select('administrator_id', __('Enterprise owner'))
+        $form->select('administrator_id', __('Group owner'))
             ->options(
                 $ads
             )
             ->rules('required');
 
-        $form->text('name', __('Name'))->required();
-        $form->text('short_name', __('Enterprise name'))->required();
+        $form->text('name', __('Group Name'))->required();
+        $form->text('short_name', __('Group short name'))->required();
 
         $form->select('type', __('Enterprise category'))
             ->options([
@@ -111,7 +112,7 @@ class EnterpriseController extends AdminController
             ->rules('required');
 
         //$form->textarea('welcome_message', __('Welcome_message'))->required();
-        $form->quill('welcome_message', __('Welcome_message'))->required();
+        $form->quill('welcome_message', __('Group rules'))->required();
         $form->text('subdomain', __('Subdomain'))->required();
         $form->image('logo', __('Logo'));
         $form->text('color', __('Primary color'))->required();
@@ -119,7 +120,7 @@ class EnterpriseController extends AdminController
         $form->text('email', __('Email'))->attribute('type', 'email')->required();
         $form->text('address', __('Address'));
         $form->date('expiry', __('Expiry'))->required();
-        $form->textarea('details', __('Details'));
+        $form->textarea('details', __('Details about group'));
 
         return $form;
     }
