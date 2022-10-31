@@ -79,6 +79,7 @@ class AcademicClassController extends AdminController
         $show->field('name', __('Name'));
         $show->field('short_name', __('Short name'));
         $show->field('details', __('Details'));
+        
 
         return $show;
     }
