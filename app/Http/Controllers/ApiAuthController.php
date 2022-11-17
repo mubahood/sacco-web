@@ -10,7 +10,7 @@ use Encore\Admin\Auth\Database\Administrator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
 use Tymon\JWTAuth\Facades\JWTAuth;
-
+    
 class ApiAuthController extends Controller
 {
 
